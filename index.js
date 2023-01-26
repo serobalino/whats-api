@@ -55,6 +55,6 @@ app.get('/', function (req, res) {
     res.send('Hello World! '+process.env.VARIABLE_A+ !!clienteVenom);
 });
 
-app.listen(3000, function () {
+app.listen(process.env.PORT, function () {
     console.log('Example app listening on port 3000!');
 });
