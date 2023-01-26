@@ -4,6 +4,8 @@ const venom = require("venom-bot");
 const app = express();
 let clienteVenom = null;
 
+const PORT = process.env.PORT || 3000;
+
 function start(client) {
     clienteVenom = client;
     client.onMessage((message) => {
@@ -52,9 +54,9 @@ app.get('/', function (req, res) {
                 console.error('Error when sending: ', erro); //return object error
             });
     }
-    res.send('Hello World! '+process.env.VARIABLE_A+ !!clienteVenom);
+    res.send('Hello World! '+PORT+ !!clienteVenom);
 });
 
-app.listen(process.env.PORT, function () {
+app.listen(PORT, function () {
     console.log('Example app listening on port 3000!');
 });
