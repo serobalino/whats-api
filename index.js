@@ -1,6 +1,7 @@
 require('dotenv/config');
 const express = require('express');
 const venom = require("venom-bot");
+const {listenMessages} = require("./controller/WhatsappController");
 const app = express();
 let clienteVenom = null;
 
@@ -8,15 +9,7 @@ const PORT = process.env.PORT || 3000;
 
 function start(client) {
     clienteVenom = client;
-    client.onMessage((message) => {
-        if (message.body === 'Hi') {
-            client.startTyping(message.from);
-            setTimeout(() => {
-                client.stopTyping(message.from);
-                client.sendText(message.from, 'Hola como stas');
-            }, 5000)
-        }
-    }).catch();
+    listenMessages(client);
 }
 
 app.get('/init', async function (req, res) {
@@ -39,7 +32,10 @@ app.get('/init', async function (req, res) {
             },
             undefined,
             {logQR: false}
-        ).then((client) => start(client)).catch((e)=>console.log('Error al crear instacia',e));
+        ).then((client) => {
+            start(client)
+            res.send('Ready!!!!');
+        }).catch((e)=>console.log('Error al crear instacia',e));
     }else{
         res.send('Ya tienes iniciada una sesión');
     }
@@ -60,5 +56,5 @@ app.get('/', function (req, res) {
 });
 
 app.listen(PORT, function () {
-    console.log('Está arriba la aplicación!');
+    console.log('Está arriba la aplicación! {'+PORT+'} ');
 });
