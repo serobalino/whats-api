@@ -8,8 +8,26 @@ const listenMessages = (client) => {
     client.onMessage((message) => {
         setRead(client, message, ()=>{
             readyToReply(client, message, async () => {
+                logConversation(message);
                 const questions = await readOption(message);
                 client.sendText(message.from, parseQueryToMsg(questions));
+                let buttons = [
+                    {
+                        url: 'https://orkestral.io/',
+                        text: 'Prueba de link'
+                    },
+                    {
+                        phoneNumber: '+55 11 91438-0641',
+                        text: 'Suporte Orkestral'
+                    },
+                    {
+                        id: '1',
+                        text: 'Button 1'
+                    }
+                ];
+                client.sendButtons(message.from, "Title", buttons, "Description").catch((e)=>{
+                    console.log('err',e)
+                })
             })
         });
     }).catch();

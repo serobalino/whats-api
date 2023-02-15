@@ -30,11 +30,16 @@ app.get('/init', async function (req, res) {
                 res.end(response.data);
 
             },
-            undefined,
+            (statusSession, session) => {
+                console.log('Status Session: ', statusSession);
+                //return isLogged || notLogged || browserClose || qrReadSuccess || qrReadFail || autocloseCalled || desconnectedMobile || deleteToken || chatsAvailable || deviceNotConnected || serverWssNotConnected || noOpenBrowser || initBrowser || openBrowser || connectBrowserWs || initWhatsapp || erroPageWhatsapp || successPageWhatsapp || waitForLogin || waitChat || successChat
+                //Create session wss return "serverClose" case server for close
+                console.log('Session name: ', session);
+            },
             {logQR: false}
         ).then((client) => {
             start(client)
-            res.send('Ready!!!!');
+            res.send('Ready!!!! '+ new Date());
         }).catch((e)=>console.log('Error al crear instacia',e));
     }else{
         res.send('Ya tienes iniciada una sesión');
